@@ -15,7 +15,7 @@ export const authenticate = async (req, res, next) => {
   }
 
   const session = await SessionsCollection.findOne({ accessToken: token });
-  if (!session) {
+  if (session === null) {
     return next(createHttpError(401, "Session not found"));
   }
 
@@ -26,7 +26,7 @@ export const authenticate = async (req, res, next) => {
   }
 
   const user = await UserCollection.findById(session.userId);
-  if (!user) {
+  if (user === null) {
     return next(createHttpError(401, "Unauthorized user"));
   }
 
