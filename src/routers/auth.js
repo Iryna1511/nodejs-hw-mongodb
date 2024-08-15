@@ -1,4 +1,4 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
 import {
   registerUserSchema,
@@ -18,6 +18,8 @@ import { validateBody } from "../middlewares/validateBody.js";
 
 const router = Router();
 
+router.use(express.json());
+
 router.post(
   "/register",
   validateBody(registerUserSchema),
@@ -35,13 +37,13 @@ router.post("/refresh", ctrlWrapper(refreshUserSessionController));
 router.post("/logout", ctrlWrapper(logoutUserController));
 
 router.post(
-  "/request-reset-email",
+  "/send-reset-email",
   validateBody(requestResetEmailSchema),
   ctrlWrapper(requestResetEmailController),
 );
 
 router.post(
-  "/reset-password",
+  "/reset-pwd",
   validateBody(resetPasswordSchema),
   ctrlWrapper(resetPasswordController),
 );

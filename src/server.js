@@ -6,18 +6,14 @@ import { env } from "./utils/env.js";
 import router from "./routers/index.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { notFoundHandler } from "./middlewares/notFoundHandler.js";
+import { UPLOADS_DIR } from "./constants/index.js";
+// import path from "node:path";
 
 const PORT = Number(env("PORT", "3000"));
 
 export const startServer = () => {
   const app = express();
 
-  app.use(
-    express.json({
-      type: ["application/json", "application/vnd.api+json"],
-      limit: "100kb",
-    }),
-  );
   app.use(cors());
   app.use(cookieParser());
 
@@ -34,6 +30,9 @@ export const startServer = () => {
       message: "Hello world!",
     });
   });
+
+  app.use("/uploads", express.static(UPLOADS_DIR));
+  // app.use(express.static(path.resolve("src", "uploads")));
 
   app.use(router);
   app.use("*", notFoundHandler);
