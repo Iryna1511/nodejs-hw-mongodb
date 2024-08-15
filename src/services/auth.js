@@ -6,12 +6,7 @@ import path from "path";
 import fs from "node:fs/promises";
 import handlebars from "handlebars";
 
-import {
-  FIFTEEN_MINUTES,
-  THIRTY_DAYS,
-  SMTP,
-  TEMPLATES_DIR,
-} from "../constants/index.js";
+import { FIFTEEN_MINUTES, THIRTY_DAYS, SMTP } from "../constants/index.js";
 import { env } from "../utils/env.js";
 import { sendEmail } from "../utils/sendMail.js";
 import { UserCollection } from "../db/models/user.js";
@@ -94,7 +89,8 @@ export const requestResetToken = async (email) => {
   );
 
   const resetPasswordTemplatePath = path.join(
-    TEMPLATES_DIR,
+    "src",
+    "templates",
     "reset-pswd-email.html",
   );
 
