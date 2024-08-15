@@ -126,19 +126,11 @@ export const resetPassword = async (password, token) => {
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
-    await Promise.all(
-      UserCollection.updateOne(
-        { _id: user._id },
-        { password: encryptedPassword },
-      ),
-      SessionsCollection.findOneAndDelete({ userId: user._id }),
+    await UserCollection.updateOne(
+      { _id: user._id },
+      { password: encryptedPassword },
     );
-    // await UserCollection.updateOne(
-    //   { _id: user._id },
-    //   { password: encryptedPassword },
-    // );
-
-    // await SessionsCollection.findOneAndDelete({ userId: user._id });
+    await SessionsCollection.findOneAndDelete({ userId: user._id });
   } catch (error) {
     if (
       error.name === "TokenExpiredError" ||
