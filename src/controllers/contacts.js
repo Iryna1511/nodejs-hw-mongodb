@@ -10,6 +10,8 @@ import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 import { parseSortParams } from "../utils/parseSortParams.js";
 import { parseFilterParams } from "../utils/parseFilterParams.js";
 import { saveFileToUploadDir } from "../utils/saveFileToUploads.js";
+import { env } from "../utils/env.js";
+import { saveFileToCloudinary } from "../utils/saveFileToCloudinary.js";
 
 export const getAllContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -52,8 +54,11 @@ export const createContactController = async (req, res) => {
   const photo = req.file;
   let photoUrl;
   if (photo) {
-    photoUrl = await saveFileToUploadDir(photo);
-    console.log(photoUrl);
+    if (env("ENABLE_CLOUINARY") === "true") {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
   }
 
   const contactData = {
@@ -79,11 +84,13 @@ export const updateContactController = async (req, res, next) => {
   const contact = req.body;
   const photo = req.file;
 
-  console.log("Fn updateContactController", req.file);
   let photoUrl;
-
   if (photo) {
-    photoUrl = await saveFileToUploadDir(photo);
+    if (env("ENABLE_CLOUINARY") === "true") {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
   }
 
   const updatedContact = await updateContact(id, userId, {
