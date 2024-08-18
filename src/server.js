@@ -7,6 +7,7 @@ import router from "./routers/index.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 import path from "node:path";
+import { swaggerDocs } from "./middlewares/swaggerDocs.js";
 
 const PORT = Number(env("PORT", "3000"));
 
@@ -14,6 +15,7 @@ export const startServer = () => {
   const app = express();
 
   app.use("/uploads", express.static(path.resolve("src", "uploads", "photos")));
+  app.use("/api-docs", swaggerDocs());
 
   app.use(cors());
   app.use(cookieParser());

@@ -1,0 +1,28 @@
+description: Validation errors
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - message
+        - data
+      properties:
+        status:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: BadRequestError
+        data:
+          type: object
+          required:
+            - message
+          properties:
+            message:
+              type: string
+              examples:
+                [
+                  "Username should have at least 3 characters",
+                  ' "contactType" must be one of [work, home, personal',
+                ]
