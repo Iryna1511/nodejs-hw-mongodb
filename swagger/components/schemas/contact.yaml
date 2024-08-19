@@ -33,15 +33,15 @@ properties:
     default: false
     example: false
   photo:
-    description: "Link to contact's photo"
+    description: "Select a photo to assign to a contact. It will be saved as a link."
     type: string
-    default: null
+    format: binary
     examples:
       [
         https://res.cloudinary.com/dv7inutf3/image/upload/v1723758420/qpabmoiftawqwxamk3wx.jpg,
         http://localhost:3000/uploads/85281f71-b86a-45ac-9b4d-147e08e53f47_cats2.jpg,
       ]
   userId:
-    description: "User's id for contact"
+    description: "ID of the user who owns the contact."
     type: string
     example: 66a92312c1de214c68f17d10
